@@ -30,6 +30,8 @@ public interface TMDBApi {
 
 
     /* ---------------SERIES--------------- */
+
+    /*
     // series populares
     @GET("trending/tv/popular")
     Call<MovieResponse> getPopularSeries(@Query("api_key") String apiKey, @Query("language") String language);
@@ -45,6 +47,6 @@ public interface TMDBApi {
     // series en emisión
     @GET("trending/tv/airing_today")
     Call<MovieResponse> getAiringTodaySeries(@Query("api_key") String apiKey, @Query("language") String language);
-
+    */
 
 }
