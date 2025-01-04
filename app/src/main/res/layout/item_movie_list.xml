@@ -41,11 +41,22 @@
             android:layout_marginTop="4dp" />
 
         <TextView
-            android:id="@+id/movie_overview"
+            android:id="@+id/movie_releasedate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Resumen breve de la película"
+            android:text="Fecha de salida de la pelicula"
             android:textSize="12sp"
             android:layout_marginTop="4dp" />
+
+        <RatingBar
+            android:id="@+id/movie_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:progressTint="#FFEB3B"
+            android:stepSize="0.5" />
+
     </LinearLayout>
 </LinearLayout>

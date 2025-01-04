@@ -10,22 +10,22 @@ public class Movie {
     // Atributos de una pelicula
     @SerializedName("title")
     private String title;
-
+    /*
     @SerializedName("overview")
     private String overview;
-
+    */
     @SerializedName("poster_path")
     private String posterPath;
 
     @SerializedName("genre_ids")
     private List<Integer> genreIds;
-    /*
+
     @SerializedName("release_date")
     private String releaseDate;
 
     @SerializedName("vote_average")
     private double voteAverage;
-
+    /*
     @SerializedName("genres")
     private List<MovieResponse.Genre> genres;
     */
@@ -34,10 +34,11 @@ public class Movie {
         return title;
     }
 
+    /*
     public String getOverview() {
         return overview;
     }
-
+    */
     public String getPosterPath() {
         return posterPath;
     }
@@ -46,7 +47,7 @@ public class Movie {
         return genreIds;
     }
 
-    /*
+
     public String getReleaseDate() {
         return releaseDate;
     }
@@ -56,7 +57,7 @@ public class Movie {
         return voteAverage;
     }
 
-
+    /*
     public List<String> getGenres() {
         List<String> genreNames = new ArrayList<>();
         if (genres != null) {

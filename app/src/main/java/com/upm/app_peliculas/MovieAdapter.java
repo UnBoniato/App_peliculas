@@ -7,6 +7,8 @@ import android.widget.BaseAdapter;
 import com.bumptech.glide.Glide;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.util.List;
@@ -48,11 +50,13 @@ public class MovieAdapter extends BaseAdapter {
         ImageView movieImage = convertView.findViewById(R.id.movie_image);
         TextView movieTitle = convertView.findViewById(R.id.movie_title);
         TextView movieGenre = convertView.findViewById(R.id.movie_genre);
-        TextView movieOverview = convertView.findViewById(R.id.movie_overview);
+        TextView movieReleaseDate = convertView.findViewById(R.id.movie_releasedate);
+        RatingBar movieRating = convertView.findViewById(R.id.movie_rating);
 
         // Configurar contenido
         movieTitle.setText(currentMovie.getTitle());
-        movieOverview.setText(currentMovie.getOverview());
+        movieReleaseDate.setText(currentMovie.getReleaseDate());
+        movieRating.setRating(((float) currentMovie.getVoteAverage())/2);
         movieGenre.setText("Genre IDs: " + currentMovie.getGenreIds().toString()); // Simplificación
 
         // Cargar imagen con Glide
