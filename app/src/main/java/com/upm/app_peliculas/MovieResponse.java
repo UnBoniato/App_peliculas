@@ -20,6 +20,8 @@ public class MovieResponse {
 
     // Clase interna que representa una película
     public static class Movie {
+
+        // Datos de una pelicula
         @SerializedName("title")
         private String title;
 
@@ -29,6 +31,10 @@ public class MovieResponse {
         @SerializedName("poster_path")
         private String posterPath;
 
+        @SerializedName("genres")
+        private String[] genres;
+
+        // Getters y Setters
         public String getTitle() {
             return title;
         }
@@ -51,6 +57,10 @@ public class MovieResponse {
 
         public void setPosterPath(String posterPath) {
             this.posterPath = posterPath;
+        }
+
+        public String getGenres() {
+            return posterPath;
         }
     }
 }
