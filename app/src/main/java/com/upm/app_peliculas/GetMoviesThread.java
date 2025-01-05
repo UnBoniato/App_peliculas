@@ -11,8 +11,8 @@ import retrofit2.Response;
 
 public class GetMoviesThread implements Runnable {
 
-    private static final String API_KEY = "0246043f7994bfc1bd073b12fbfb869a";
-    private HomeActivity activity;
+    private final String API_KEY = "0246043f7994bfc1bd073b12fbfb869a";
+    private final HomeActivity activity;
 
     public GetMoviesThread(HomeActivity activity){
         this.activity = activity;
