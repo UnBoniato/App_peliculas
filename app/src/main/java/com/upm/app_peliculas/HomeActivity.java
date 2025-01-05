@@ -19,7 +19,7 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private static final String API_KEY = "0246043f7994bfc1bd073b12fbfb869a";
+
     private MovieAdapter movieAdapter;
     private ListView movieListView;
 
@@ -31,39 +31,16 @@ public class HomeActivity extends AppCompatActivity {
 
         movieListView = findViewById(R.id.movie_list);
 
+        // Thread que se encarga de la conexión con la API
+        GetMoviesThread thread = new GetMoviesThread(this);
+        thread.run();
+    }
 
-        // Creación de Retrofit y la petición a la API
-        TMDBApi apiService = RetrofitClient.getRetrofitInstance().create(TMDBApi.class);
-        Call<MovieResponse> call = apiService.getPopularMovies(API_KEY, "es-ES");
+    // Se llama desde el thread al recibir la respuesta de la API
+    public void finishDownload(List<Movie> response){
 
-        // Petición a la API
-        call.enqueue(new Callback<MovieResponse>() {
-            @Override
-            public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    List<Movie> movies = response.body().getMovies();
-                    Log.d("API Response", "Películas encontradas: " + movies.size());
-
-                    movieAdapter = new MovieAdapter(HomeActivity.this, movies);
-                    movieListView.setAdapter(movieAdapter);
-                } else {
-                    Toast.makeText(HomeActivity.this, "Error en la respuesta", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MovieResponse> call, Throwable t) {
-                Log.e("API Error", t.getMessage());
-            }
-        });
-
-
-
-
-
-
-
-
+        movieAdapter = new MovieAdapter(HomeActivity.this, response);
+        movieListView.setAdapter(movieAdapter);
     }
 
 
