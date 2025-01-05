@@ -27,6 +27,7 @@ public class GetMoviesThread implements Runnable {
 
         // Petición a la API
         call.enqueue(new Callback<MovieResponse>() {
+
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {

@@ -9,40 +9,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MovieListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class MovieListFragment extends Fragment {
 
     private ListView movieListView;
     private MovieAdapter movieAdapter;
     private List<Movie> movieList = new ArrayList<>();
+    private TextView listTitleView;
 
 
     public MovieListFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MovieListFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static MovieListFragment newInstance(String param1, String param2) {
-        MovieListFragment fragment = new MovieListFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -56,8 +38,9 @@ public class MovieListFragment extends Fragment {
         // Inflar el layout del fragmento
         View rootView = inflater.inflate(R.layout.fragment_movie_list, container, false);
 
-        // Asignar el ListView
+        // Asignar el ListView y el TextView
         movieListView = rootView.findViewById(R.id.movie_list);
+        listTitleView = rootView.findViewById(R.id.textView);
 
         // Crear el adaptador y asignarlo al ListView
         movieAdapter = new MovieAdapter(getContext(), movieList);
@@ -66,10 +49,14 @@ public class MovieListFragment extends Fragment {
         return rootView;
     }
 
-    // Método para actualizar la lista de pelis
-    public void updateMovies(List<Movie> newMovies) {
+    // Actualizar la lista de pelis
+    public void updateMoviesList(List<Movie> newMovies) {
         movieList.clear();
         movieList.addAll(newMovies);
         movieAdapter.notifyDataSetChanged(); // Notifica que los datos han cambiado
+    }
+
+    public void updateListTitle(String title){
+        listTitleView.setText(title);
     }
 }
