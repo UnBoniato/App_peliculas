@@ -7,6 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -19,9 +22,7 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
-
-    private MovieAdapter movieAdapter;
-    private ListView movieListView;
+    private MovieListFragment listFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,13 @@ public class HomeActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
 
-        movieListView = findViewById(R.id.movie_list);
+        // Crea el fragmento
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        //listFragment = (MovieListFragment) fragmentManager.findFragmentById(R.id.fragmentContainer);
+        listFragment = new MovieListFragment();
+        fragmentManager.beginTransaction().replace(R.id.fragmentContainer, listFragment).commit();
+
+
 
         // Thread que se encarga de la conexión con la API
         GetMoviesThread thread = new GetMoviesThread(this);
@@ -39,21 +46,7 @@ public class HomeActivity extends AppCompatActivity {
     // Se llama desde el thread al recibir la respuesta de la API
     public void finishDownload(List<Movie> response){
 
-        movieAdapter = new MovieAdapter(HomeActivity.this, response);
-        movieListView.setAdapter(movieAdapter);
+        listFragment.updateMovies(response);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

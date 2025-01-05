@@ -31,6 +31,7 @@ public class GetMoviesThread implements Runnable {
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     activity.finishDownload(response.body().getMovies());
+
                 } else {
                     Toast.makeText(activity, "Error en la respuesta", Toast.LENGTH_SHORT).show();
                 }
