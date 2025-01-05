@@ -29,6 +29,11 @@ public interface TMDBApi {
     Call<MovieResponse> getUpcomingMovies(@Query("api_key") String apiKey, @Query("language") String language);
 
 
+    /*--------------GENEROS---------------*/
+
+    @GET("genre/movie/list")
+    Call<GenreResponse> getGenres(@Query("api_key") String apiKey, @Query("language") String language);
+
     /* ---------------SERIES--------------- */
 
     /*

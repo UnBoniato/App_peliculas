@@ -44,6 +44,8 @@ public class HomeActivity extends AppCompatActivity {
         listFragment = new MovieListFragment();
         fragmentManager.beginTransaction().replace(R.id.fragmentContainer, listFragment).commit();
 
+        //Recoger todos los generos de las peliculas
+        GenreManager.getInstance().loadGenres(apiService, API_KEY);
         // Asignar acciones a cada apartado del tab
         tab = findViewById(R.id.tabLayout);
         tab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

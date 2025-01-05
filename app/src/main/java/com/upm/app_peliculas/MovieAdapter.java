@@ -1,6 +1,7 @@
 package com.upm.app_peliculas;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -57,7 +58,20 @@ public class MovieAdapter extends BaseAdapter {
         movieTitle.setText(currentMovie.getTitle());
         movieReleaseDate.setText(currentMovie.getReleaseDate());
         movieRating.setRating(((float) currentMovie.getVoteAverage())/2);
-        movieGenre.setText("Genre IDs: " + currentMovie.getGenreIds().toString()); // Simplificación
+
+        //Crear la cadena con los generos
+        StringBuilder genres = new StringBuilder();
+        for (int genreId : currentMovie.getGenreIds()) {
+            String genreName = GenreManager.getInstance().getGenreName(genreId);
+            genres.append(genreName).append(", ");
+        }
+
+        if (genres.length() > 0) {
+            genres.setLength(genres.length() - 2); // Eliminar la última coma
+        }
+        movieGenre.setText(genres.toString());
+
+
 
         // Cargar imagen con Glide
         String imageUrl = "https://image.tmdb.org/t/p/w500" + currentMovie.getPosterPath();

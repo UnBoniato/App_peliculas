@@ -25,10 +25,7 @@ public class Movie {
 
     @SerializedName("vote_average")
     private double voteAverage;
-    /*
-    @SerializedName("genres")
-    private List<MovieResponse.Genre> genres;
-    */
+
     // Getters y Setters
     public String getTitle() {
         return title;
@@ -46,8 +43,6 @@ public class Movie {
     public List<Integer> getGenreIds() {
         return genreIds;
     }
-
-
     public String getReleaseDate() {
         return releaseDate;
     }
@@ -57,15 +52,4 @@ public class Movie {
         return voteAverage;
     }
 
-    /*
-    public List<String> getGenres() {
-        List<String> genreNames = new ArrayList<>();
-        if (genres != null) {
-            for (MovieResponse.Genre genre : genres) {
-                genreNames.add(genre.getName());
-            }
-        }
-        return genreNames;
-    }
-    */
 }
