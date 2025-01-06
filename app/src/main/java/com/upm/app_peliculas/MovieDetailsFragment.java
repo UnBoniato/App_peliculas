@@ -4,61 +4,94 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.ScrollView;
+import android.widget.TextView;
+import android.widget.VideoView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MovieDetailsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.bumptech.glide.Glide;
+
+
 public class MovieDetailsFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private Movie selectedMovie;
 
     public MovieDetailsFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MovieDetailsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static MovieDetailsFragment newInstance(String param1, String param2) {
-        MovieDetailsFragment fragment = new MovieDetailsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public void setMovie(Movie movie) {
+        this.selectedMovie = movie;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_movie_details, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_movie_details, container, false);
+
+        // Buscar elementos del layout
+        ImageView posterView = rootView.findViewById(R.id.movie_poster);
+        TextView titleView = rootView.findViewById(R.id.movie_title);
+        TextView genresView = rootView.findViewById(R.id.movie_genres);
+        TextView releaseDateView = rootView.findViewById(R.id.movie_release_date);
+        TextView durationView = rootView.findViewById(R.id.movie_duration);
+        RatingBar ratingBar = rootView.findViewById(R.id.movie_rating_bar);
+        TextView summaryView = rootView.findViewById(R.id.movie_summary);
+        TextView revenueView = rootView.findViewById(R.id.movie_revenue);
+        TextView budgetView = rootView.findViewById(R.id.movie_budget);
+        VideoView trailerButton = rootView.findViewById(R.id.movie_trailer);
+        ScrollView scrollView = rootView.findViewById(R.id.scroll_view);
+
+
+
+
+        // Mostrar los datos de la película en el layout
+        if (selectedMovie != null) {
+            // Mostrar datos en los widgets
+            titleView.setText(selectedMovie.getTitle());
+            //genresView.setText(selectedMovie.getGenres());
+            releaseDateView.setText(selectedMovie.getReleaseDate());
+            durationView.setText(selectedMovie.getDuration());
+            ratingBar.setRating(((float) selectedMovie.getVoteAverage())/2);
+            summaryView.setText(selectedMovie.getOverview());
+            revenueView.setText("$" + selectedMovie.getRevenue());
+            budgetView.setText("$" + selectedMovie.getBudget());
+
+            // Cargar imagen del poster
+            String imageUrl = "https://image.tmdb.org/t/p/w500" + selectedMovie.getPosterPath();
+            Glide.with(getContext()).load(imageUrl).into(posterView);
+
+            scrollView.fullScroll(ScrollView.FOCUS_UP);
+
+
+            // Configurar el botón de compartir
+
+            /*
+            shareButton.setOnClickListener(v -> {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                String shareText = "Mira esta película: " + selectedMovie.getTitle() + "\n" + selectedMovie.getSummary() + "\nTráiler: " + selectedMovie.getTrailerUrl();
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
+                startActivity(Intent.createChooser(shareIntent, "Compartir película"));
+            });
+             */
+        }
+
+        return rootView;
     }
+
+
+
 }

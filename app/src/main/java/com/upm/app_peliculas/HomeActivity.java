@@ -4,9 +4,6 @@ import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -14,7 +11,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import android.util.Log;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
@@ -22,13 +18,14 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.List;
 
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements MovieListFragment.OnMovieSelectedListener {
 
     private final String API_KEY = "0246043f7994bfc1bd073b12fbfb869a";
     private final String LANGUAGE = "es-ES";
     private  TMDBApi apiService;
     private MovieListFragment listFragment;
     private TabLayout tab;
+    String listTittle = "Tendencias de la Semana";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +36,14 @@ public class HomeActivity extends AppCompatActivity {
         // Crear el servicio para la API
         apiService = RetrofitClient.getRetrofitInstance().create(TMDBApi.class);
 
-        // Crea el fragmento
+        // Crea el fragmento de las listas y reemplazar el contenedor por el fragmento
         FragmentManager fragmentManager = getSupportFragmentManager();
         listFragment = new MovieListFragment();
         fragmentManager.beginTransaction().replace(R.id.fragmentContainer, listFragment).commit();
 
         //Recoger todos los generos de las peliculas
         GenreManager.getInstance().loadGenres(apiService, API_KEY);
+
         // Asignar acciones a cada apartado del tab
         tab = findViewById(R.id.tabLayout);
         tab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -53,32 +51,30 @@ public class HomeActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
 
                 Call<MovieResponse> call = null;
-                String tittle = "";
 
                 switch (tab.getPosition()){
                     case 0: // Tendencias
-                        call = apiService.getTrendingMovies(API_KEY, LANGUAGE);
-                        tittle = "Tendencias de la Semana";
+                        call = apiService.getTrendingMovies(LANGUAGE);
+                        listTittle = "Tendencias de la Semana";
                         break;
                     case 1: // Populares
-                        call = apiService.getPopularMovies(API_KEY, LANGUAGE);
-                        tittle = "Populares";
+                        call = apiService.getPopularMovies(LANGUAGE);
+                        listTittle = "Populares";
                         break;
                     case 2: // En Cines
-                        call = apiService.getNowPlayingMovies(API_KEY, LANGUAGE);
-                        tittle = "Actualmente en los Cines";
+                        call = apiService.getNowPlayingMovies(LANGUAGE);
+                        listTittle = "Actualmente en los Cines";
                         break;
                     case 3: // Proximos Estrenos
-                        call = apiService.getUpcomingMovies(API_KEY, LANGUAGE);
-                        tittle = "Próximos Estrenos";
+                        call = apiService.getUpcomingMovies(LANGUAGE);
+                        listTittle = "Próximos Estrenos";
                         break;
                     case 4: // Mejor Valoradas
-                        call = apiService.getTopRatedMovies(API_KEY, LANGUAGE);
-                        tittle = "Mejor Valoradas";
+                        call = apiService.getTopRatedMovies(LANGUAGE);
+                        listTittle = "Mejor Valoradas";
                         break;
                 }
                 downloadMovieInfo(call);
-                listFragment.updateListTitle(tittle);
             }
 
             @Override
@@ -90,7 +86,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        downloadMovieInfo(apiService.getTrendingMovies(API_KEY, LANGUAGE));
+        downloadMovieInfo(apiService.getTrendingMovies(LANGUAGE));
 
     }// onCreate()
 
@@ -98,6 +94,7 @@ public class HomeActivity extends AppCompatActivity {
     public void finishDownload(List<Movie> response){
 
         listFragment.updateMoviesList(response);
+        listFragment.updateListTitle(listTittle);
     }
 
     // Petición a la API
@@ -122,7 +119,25 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    // Se llama cuando se selecciona un item de la lista de peliculas
+    @Override
+    public void onMovieSelected(Movie movie) {
+
+        // Crear el nuevo fragmento con los detalles de la peli
+        MovieDetailsFragment detailsFragment = new MovieDetailsFragment();
+
+        // Pasar los datos de la película al fragmento
+        detailsFragment.setMovie(movie);
+
+        // Reemplazar el fragmento actual por el de los detalles de la peli
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragmentContainer, detailsFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
 
 
 
 }
+

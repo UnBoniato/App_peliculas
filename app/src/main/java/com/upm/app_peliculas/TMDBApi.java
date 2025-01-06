@@ -10,23 +10,23 @@ public interface TMDBApi {
 
     // pelis populares
     @GET("movie/popular")
-    Call<MovieResponse> getPopularMovies(@Query("api_key") String apiKey, @Query("language") String language);
+    Call<MovieResponse> getPopularMovies(@Query("language") String language);
 
     // pelis trending de la semana
     @GET("trending/movie/week")
-    Call<MovieResponse> getTrendingMovies(@Query("api_key") String apiKey, @Query("language") String language);
+    Call<MovieResponse> getTrendingMovies(@Query("language") String language);
 
     // top rated pelis
     @GET("movie/top_rated")
-    Call<MovieResponse> getTopRatedMovies(@Query("api_key") String apiKey, @Query("language") String language);
+    Call<MovieResponse> getTopRatedMovies(@Query("language") String language);
 
     // pelis que están actualmente en los cines
     @GET("movie/now_playing")
-    Call<MovieResponse> getNowPlayingMovies(@Query("api_key") String apiKey, @Query("language") String language);
+    Call<MovieResponse> getNowPlayingMovies(@Query("language") String language);
 
     // pelis que se estrenan pronto
     @GET("movie/upcoming")
-    Call<MovieResponse> getUpcomingMovies(@Query("api_key") String apiKey, @Query("language") String language);
+    Call<MovieResponse> getUpcomingMovies(@Query("language") String language);
 
 
     /*--------------GENEROS---------------*/

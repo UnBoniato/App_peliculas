@@ -1,7 +1,9 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:descendantFocusability="blocksDescendants">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,18 +14,17 @@
         <!-- Cartelera -->
         <ImageView
             android:id="@+id/movie_poster"
-            android:layout_width="260dp"
-            android:layout_height="320dp"
+            android:layout_width="274dp"
+            android:layout_height="387dp"
             android:layout_marginBottom="16dp"
-            android:scaleType="centerCrop"
-            android:background="@drawable/login_background"/>
+            android:scaleType="centerCrop" />
 
         <!-- Título de la película -->
         <TextView
             android:id="@+id/movie_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="26sp"
+            android:textSize="32sp"
             android:textStyle="bold"
             android:text="Título"
             android:textColor="@color/colorPrimary"
@@ -35,7 +36,7 @@
             android:id="@+id/movie_genres"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
+            android:textSize="18sp"
             android:textColor="@color/colorPrimary"
             android:gravity="center"
             android:layout_marginBottom="16dp"
@@ -48,14 +49,14 @@
 
             <!-- Año de lanzamiento -->
             <TextView
-                android:id="@+id/movie_release_year"
+                android:id="@+id/movie_release_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"
                 android:gravity="center"
                 android:text="22-11-2024"
                 android:textColor="@color/colorPrimary"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
 
 
             <TextView
@@ -66,13 +67,13 @@
                 android:gravity="center"
                 android:text="2h 42m"
                 android:textColor="@color/colorPrimary"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
 
         </LinearLayout>
 
         <!-- Resumen -->
         <RatingBar
-            android:id="@+id/movie_rating"
+            android:id="@+id/movie_rating_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -81,15 +82,15 @@
             android:minHeight="0dp"
             android:numStars="5"
             android:progressTint="#FFEB3B"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
+            android:scaleX="1"
+            android:scaleY="1"
             android:stepSize="0.5" />
 
         <TextView
             android:id="@+id/movie_summary_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="19sp"
             android:textStyle="bold"
             android:textColor="@color/colorPrimary"
             android:text="Resumen"
@@ -99,7 +100,9 @@
             android:id="@+id/movie_summary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:textSize="18sp"
             android:textColor="@color/colorPrimary"
             android:layout_marginBottom="20dp" />
 
@@ -116,7 +119,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:textColor="@color/colorPrimary"
                 android:text="Ingresos: " />
 
@@ -125,7 +128,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:textColor="@color/colorPrimary"
                 android:text="7049834" />
         </LinearLayout>
@@ -142,7 +145,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:textColor="@color/colorPrimary"
                 android:text="Presupuesto: " />
 
@@ -150,7 +153,7 @@
                 android:id="@+id/movie_budget"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:textColor="@color/colorPrimary"
                 android:text="937466"/>
         </LinearLayout>
@@ -160,7 +163,7 @@
             android:id="@+id/movie_trailer_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@color/colorPrimary"
             android:text="Trailer"

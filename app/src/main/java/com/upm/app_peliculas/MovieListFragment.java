@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,12 @@ public class MovieListFragment extends Fragment {
         movieAdapter = new MovieAdapter(getContext(), movieList);
         movieListView.setAdapter(movieAdapter);
 
+        // Configurar el listener de clicks
+        movieListView.setOnItemClickListener((parent, view, position, id) -> {
+            Movie selectedMovie = movieList.get(position);
+            onMovieSelected(selectedMovie);
+        });
+
         return rootView;
     }
 
@@ -58,5 +65,16 @@ public class MovieListFragment extends Fragment {
 
     public void updateListTitle(String title){
         listTitleView.setText(title);
+    }
+
+    private void onMovieSelected(Movie movie) {
+        if (getActivity() instanceof OnMovieSelectedListener) {
+            ((OnMovieSelectedListener) getActivity()).onMovieSelected(movie);
+        }
+        Log.e("ERROR", "ESTO K ES");
+    }
+
+    public interface OnMovieSelectedListener {
+        void onMovieSelected(Movie movie);
     }
 }
