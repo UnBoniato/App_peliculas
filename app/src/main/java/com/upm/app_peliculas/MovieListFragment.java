@@ -50,7 +50,7 @@ public class MovieListFragment extends Fragment {
         // Configurar el listener de clicks
         movieListView.setOnItemClickListener((parent, view, position, id) -> {
             Movie selectedMovie = movieList.get(position);
-            onMovieSelected(selectedMovie);
+            onMovieSelected(selectedMovie.getMovie_id());
         });
 
         return rootView;
@@ -67,14 +67,13 @@ public class MovieListFragment extends Fragment {
         listTitleView.setText(title);
     }
 
-    private void onMovieSelected(Movie movie) {
+    private void onMovieSelected(int movie_id) {
         if (getActivity() instanceof OnMovieSelectedListener) {
-            ((OnMovieSelectedListener) getActivity()).onMovieSelected(movie);
+            ((OnMovieSelectedListener) getActivity()).onMovieSelected(movie_id);
         }
-        Log.e("ERROR", "ESTO K ES");
     }
 
     public interface OnMovieSelectedListener {
-        void onMovieSelected(Movie movie);
+        void onMovieSelected(int movie_id);
     }
 }

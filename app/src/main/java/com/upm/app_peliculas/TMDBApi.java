@@ -1,7 +1,9 @@
 package com.upm.app_peliculas;
 
+import kotlin.ParameterName;
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface TMDBApi {
@@ -27,6 +29,10 @@ public interface TMDBApi {
     // pelis que se estrenan pronto
     @GET("movie/upcoming")
     Call<MovieResponse> getUpcomingMovies(@Query("language") String language);
+
+    // obtiene una peli por su id
+    @GET("movie/{movie_id}")
+    Call<Movie> getMovie(@Path("movie_id") int movie_id, @Query("language") String language);
 
 
     /*--------------GENEROS---------------*/

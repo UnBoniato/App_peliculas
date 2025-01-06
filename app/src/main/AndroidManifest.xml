@@ -16,7 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.App_peliculas"
         android:usesCleartextTraffic="true"
-        android:windowSoftInputMode="stateHidden|adjustPan"
         tools:targetApi="31">
         <activity
             android:name=".HomeActivity"

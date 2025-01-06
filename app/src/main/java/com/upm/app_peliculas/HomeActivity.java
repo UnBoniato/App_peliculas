@@ -74,7 +74,7 @@ public class HomeActivity extends AppCompatActivity implements MovieListFragment
                         listTittle = "Mejor Valoradas";
                         break;
                 }
-                downloadMovieInfo(call);
+                downloadMovieListInfo(call);
             }
 
             @Override
@@ -86,26 +86,27 @@ public class HomeActivity extends AppCompatActivity implements MovieListFragment
             }
         });
 
-        downloadMovieInfo(apiService.getTrendingMovies(LANGUAGE));
+        downloadMovieListInfo(apiService.getTrendingMovies(LANGUAGE));
 
     }// onCreate()
 
     // Se llama al recibir la respuesta de la API
-    public void finishDownload(List<Movie> response){
+    public void finishListDownload(List<Movie> response){
 
         listFragment.updateMoviesList(response);
         listFragment.updateListTitle(listTittle);
     }
 
-    // Petición a la API
-    public void downloadMovieInfo(Call<MovieResponse> call){
+
+    // Petición a la API para la lista de pelis
+    public void downloadMovieListInfo(Call<MovieResponse> call){
 
         call.enqueue(new Callback<MovieResponse>() {
 
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    finishDownload(response.body().getMovies());
+                    finishListDownload(response.body().getMovies());
 
                 } else {
                     Toast.makeText(HomeActivity.this, "Error en la respuesta", Toast.LENGTH_SHORT).show();
@@ -121,19 +122,38 @@ public class HomeActivity extends AppCompatActivity implements MovieListFragment
 
     // Se llama cuando se selecciona un item de la lista de peliculas
     @Override
-    public void onMovieSelected(Movie movie) {
+    public void onMovieSelected(int movie_id) {
 
         // Crear el nuevo fragmento con los detalles de la peli
         MovieDetailsFragment detailsFragment = new MovieDetailsFragment();
 
-        // Pasar los datos de la película al fragmento
-        detailsFragment.setMovie(movie);
+        // Llamada a la API para obtener la peli y pasarla al fragmento
+        Call<Movie> call = apiService.getMovie(movie_id, LANGUAGE);
+        call.enqueue(new Callback<Movie>() {
 
-        // Reemplazar el fragmento actual por el de los detalles de la peli
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragmentContainer, detailsFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+            @Override
+            public void onResponse(Call<Movie> call, Response<Movie> response) {
+                if (response.isSuccessful() && response.body() != null) {
+
+                    // Enviar pelicula al fragmento
+                    Movie movie = response.body();
+                    detailsFragment.setMovie(movie);
+
+                    // Reemplazar el fragmento actual por el de los detalles de la peli
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.fragmentContainer, detailsFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+
+                } else {
+                    Toast.makeText(HomeActivity.this, "Error en la respuesta", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<Movie> call, Throwable t) {
+                Log.e("API Error", t.getMessage());
+            }
+        });
     }
 
 

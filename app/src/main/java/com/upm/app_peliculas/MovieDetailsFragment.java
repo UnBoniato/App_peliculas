@@ -66,8 +66,8 @@ public class MovieDetailsFragment extends Fragment {
             durationView.setText(selectedMovie.getDuration());
             ratingBar.setRating(((float) selectedMovie.getVoteAverage())/2);
             summaryView.setText(selectedMovie.getOverview());
-            revenueView.setText("$" + selectedMovie.getRevenue());
-            budgetView.setText("$" + selectedMovie.getBudget());
+            revenueView.setText("$" + Integer.toString(selectedMovie.getRevenue()));
+            budgetView.setText("$" + Integer.toString(selectedMovie.getBudget()));
 
             // Cargar imagen del poster
             String imageUrl = "https://image.tmdb.org/t/p/w500" + selectedMovie.getPosterPath();

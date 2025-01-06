@@ -8,8 +8,8 @@ import java.util.List;
 public class Movie {
 
     // Atributos de una pelicula
-    @SerializedName("movie_id")
-    private String movie_id;
+    @SerializedName("id")
+    private int movie_id;
 
     @SerializedName("poster_path")
     private String posterPath;
@@ -40,7 +40,7 @@ public class Movie {
 
 
     // Getters y Setters
-    public String getMovie_id() {
+    public int getMovie_id() {
         return movie_id;
     }
 
