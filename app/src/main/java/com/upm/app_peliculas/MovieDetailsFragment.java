@@ -1,5 +1,6 @@
 package com.upm.app_peliculas;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -38,7 +39,7 @@ public class MovieDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View rootView = inflater.inflate(R.layout.fragment_movie_details, container, false);
 
         // Buscar elementos del layout
@@ -53,9 +54,6 @@ public class MovieDetailsFragment extends Fragment {
         TextView budgetView = rootView.findViewById(R.id.movie_budget);
         VideoView trailerButton = rootView.findViewById(R.id.movie_trailer);
         ScrollView scrollView = rootView.findViewById(R.id.scroll_view);
-
-
-
 
         // Mostrar los datos de la película en el layout
         if (selectedMovie != null) {
@@ -75,21 +73,33 @@ public class MovieDetailsFragment extends Fragment {
 
             scrollView.fullScroll(ScrollView.FOCUS_UP);
 
-
-            // Configurar el botón de compartir
-
-            /*
-            shareButton.setOnClickListener(v -> {
-                Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.setType("text/plain");
-                String shareText = "Mira esta película: " + selectedMovie.getTitle() + "\n" + selectedMovie.getSummary() + "\nTráiler: " + selectedMovie.getTrailerUrl();
-                shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
-                startActivity(Intent.createChooser(shareIntent, "Compartir película"));
-            });
-             */
         }
 
         return rootView;
+    }
+
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+
+        super.onViewCreated(view, savedInstanceState);
+
+        Button shareButton = view.findViewById(R.id.share_button);
+        shareButton.setOnClickListener(v -> {
+            if (selectedMovie != null) {
+                shareMovieInfo();
+            }
+        });
+    }
+    private void shareMovieInfo(){
+
+        String shareText = "¡Echale un vistazo a esta película!\n\n" +
+                "Título: " + selectedMovie.getTitle() + "\n" +
+                "Resumen: " + selectedMovie.getOverview() + "\n";
+
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
+
+        startActivity(Intent.createChooser(shareIntent, "Compartir película"));
     }
 
 
