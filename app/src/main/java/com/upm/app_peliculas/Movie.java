@@ -20,6 +20,9 @@ public class Movie {
     @SerializedName("genre_ids")
     private List<Integer> genreIds;
 
+    @SerializedName("genres")
+    private List<Genre> genre;
+
     @SerializedName("release_date")
     private String releaseDate;
 
@@ -55,6 +58,8 @@ public class Movie {
     public List<Integer> getGenreIds() {
         return genreIds;
     }
+
+    public List<Genre> getGenre() { return genre; }
 
     public String getReleaseDate() {
         return releaseDate;

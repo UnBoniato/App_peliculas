@@ -22,6 +22,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -64,10 +65,10 @@ public class MovieDetailsFragment extends Fragment {
         TextView summaryView = rootView.findViewById(R.id.movie_summary);
         TextView revenueView = rootView.findViewById(R.id.movie_revenue);
         TextView budgetView = rootView.findViewById(R.id.movie_budget);
-        //YouTubePlayerView youTubePlayerView = rootView.findViewById(R.id.yt_player_view);
-        //getLifecycle().addObserver(youTubePlayerView);
+        YouTubePlayerView youTubePlayerView = rootView.findViewById(R.id.youtube_player_view);
+        getLifecycle().addObserver(youTubePlayerView);
 
-        /*
+        // Crear el Listener para que cuando el trailer esté listo y se pulse en él, se reproduzca
         youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
             @Override
             public void onReady(@NonNull YouTubePlayer youTubePlayer) {
@@ -83,14 +84,25 @@ public class MovieDetailsFragment extends Fragment {
                 });
             }
         });
-        */
 
+        //Crear la cadena con los generos
+            List<Genre> genreList = selectedMovie.getGenre();
+
+            StringBuilder genres = new StringBuilder();
+            for(Genre genre : genreList){
+                String genreName = GenreManager.getInstance().getGenreName(genre.getId());
+                genres.append(genreName).append(", ");
+            }
+
+            if (genres.length() > 0) {
+                genres.setLength(genres.length() - 2); // Eliminar la última coma
+            }
 
         // Mostrar los datos de la película en el layout
         if (selectedMovie != null) {
             // Mostrar datos en los widgets
             titleView.setText(selectedMovie.getTitle());
-            //genresView.setText(selectedMovie.getGenres());
+            genresView.setText(genres.toString());
             releaseDateView.setText(selectedMovie.getReleaseDate());
             durationView.setText(selectedMovie.getDuration());
             ratingBar.setRating(((float) selectedMovie.getVoteAverage())/2);
@@ -103,7 +115,6 @@ public class MovieDetailsFragment extends Fragment {
             Glide.with(getContext()).load(imageUrl).into(posterView);
 
         }
-
         return rootView;
     }
 
@@ -131,6 +142,7 @@ public class MovieDetailsFragment extends Fragment {
         startActivity(Intent.createChooser(shareIntent, "Compartir película"));
     }
 
+    // Llamada a la API para obtener la clave del trailer de la peli a raiz de su id
     public void obtainTrailerKey(int movieId) {
         TMDBApi movieApi = RetrofitClient.getRetrofitInstance().create(TMDBApi.class);
         Call<VideosResponse> call = movieApi.getMovieVideos(movieId);

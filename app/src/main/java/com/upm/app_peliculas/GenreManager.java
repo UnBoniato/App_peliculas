@@ -14,6 +14,7 @@ import retrofit2.Response;
 public class GenreManager {
 
     private final String API_KEY = "0246043f7994bfc1bd073b12fbfb869a";
+    private final String LANGUAGE = "es-ES";
     private static GenreManager instance;
     private Map<Integer, String> genreMap = new HashMap<>();
 
