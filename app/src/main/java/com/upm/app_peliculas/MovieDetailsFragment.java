@@ -3,6 +3,7 @@ package com.upm.app_peliculas;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -17,11 +18,22 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class MovieDetailsFragment extends Fragment {
 
     private Movie selectedMovie;
+    private String trailerKey;
+    private boolean isTrailerPlaying = false;
 
     public MovieDetailsFragment() {
         // Required empty public constructor
@@ -52,8 +64,27 @@ public class MovieDetailsFragment extends Fragment {
         TextView summaryView = rootView.findViewById(R.id.movie_summary);
         TextView revenueView = rootView.findViewById(R.id.movie_revenue);
         TextView budgetView = rootView.findViewById(R.id.movie_budget);
-        VideoView trailerButton = rootView.findViewById(R.id.movie_trailer);
-        ScrollView scrollView = rootView.findViewById(R.id.scroll_view);
+        //YouTubePlayerView youTubePlayerView = rootView.findViewById(R.id.yt_player_view);
+        //getLifecycle().addObserver(youTubePlayerView);
+
+        /*
+        youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
+            @Override
+            public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+                // Prepara el video pero no lo reproduce
+                youTubePlayer.cueVideo(trailerKey, 0);
+
+                // Configurar click para reproducir el video
+                youTubePlayerView.setOnClickListener(v -> {
+                    if (!isTrailerPlaying) {
+                        youTubePlayer.loadVideo(trailerKey, 0); // Inicia la reproducción
+                        isTrailerPlaying = true;
+                    }
+                });
+            }
+        });
+        */
+
 
         // Mostrar los datos de la película en el layout
         if (selectedMovie != null) {
@@ -70,8 +101,6 @@ public class MovieDetailsFragment extends Fragment {
             // Cargar imagen del poster
             String imageUrl = "https://image.tmdb.org/t/p/w500" + selectedMovie.getPosterPath();
             Glide.with(getContext()).load(imageUrl).into(posterView);
-
-            scrollView.fullScroll(ScrollView.FOCUS_UP);
 
         }
 
@@ -101,6 +130,34 @@ public class MovieDetailsFragment extends Fragment {
 
         startActivity(Intent.createChooser(shareIntent, "Compartir película"));
     }
+
+    public void obtainTrailerKey(int movieId) {
+        TMDBApi movieApi = RetrofitClient.getRetrofitInstance().create(TMDBApi.class);
+        Call<VideosResponse> call = movieApi.getMovieVideos(movieId);
+
+        call.enqueue(new Callback<VideosResponse>() {
+            @Override
+            public void onResponse(Call<VideosResponse> call, Response<VideosResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Video> videos = response.body().getResults();
+                    for (Video video : videos) {
+                        if ("Trailer".equalsIgnoreCase(video.getType()) && "YouTube".equalsIgnoreCase(video.getSite())) {
+                            trailerKey=video.getKey();
+                            break;
+                        }
+                    }
+                } else {
+                    Log.e("Trailer", "No se encontró un tráiler válido");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<VideosResponse> call, Throwable t) {
+                Log.e("Trailer", "Error al obtener el tráiler: " + t.getMessage());
+            }
+        });
+    }
+
 
 
 

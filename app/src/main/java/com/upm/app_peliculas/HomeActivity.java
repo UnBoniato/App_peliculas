@@ -74,7 +74,7 @@ public class HomeActivity extends AppCompatActivity implements MovieListFragment
                         listTittle = "Mejor Valoradas";
                         break;
                 }
-                downloadMovieListInfo(call);
+                obtainMovieListInfo(call);
             }
 
             @Override
@@ -86,7 +86,7 @@ public class HomeActivity extends AppCompatActivity implements MovieListFragment
             }
         });
 
-        downloadMovieListInfo(apiService.getTrendingMovies(LANGUAGE));
+        obtainMovieListInfo(apiService.getTrendingMovies(LANGUAGE));
 
     }// onCreate()
 
@@ -99,7 +99,7 @@ public class HomeActivity extends AppCompatActivity implements MovieListFragment
 
 
     // Petición a la API para la lista de pelis
-    public void downloadMovieListInfo(Call<MovieResponse> call){
+    public void obtainMovieListInfo(Call<MovieResponse> call){
 
         call.enqueue(new Callback<MovieResponse>() {
 
@@ -154,6 +154,8 @@ public class HomeActivity extends AppCompatActivity implements MovieListFragment
                 Log.e("API Error", t.getMessage());
             }
         });
+
+        detailsFragment.obtainTrailerKey(movie_id);
     }
 
 

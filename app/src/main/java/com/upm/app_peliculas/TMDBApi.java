@@ -34,6 +34,10 @@ public interface TMDBApi {
     @GET("movie/{movie_id}")
     Call<Movie> getMovie(@Path("movie_id") int movie_id, @Query("language") String language);
 
+    // obtiene los videos de una peli
+    @GET("movie/{id}/videos")
+    Call<VideosResponse> getMovieVideos(@Path("id") int movieId);
+
 
     /*--------------GENEROS---------------*/
 
