@@ -1,5 +1,7 @@
 package com.upm.app_peliculas;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -11,6 +13,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
@@ -85,8 +88,25 @@ public class HomeActivity extends AppCompatActivity implements MovieListFragment
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-
         obtainMovieListInfo(apiService.getTrendingMovies(LANGUAGE));
+
+        //configuracion del boton de logout
+
+        Button logoutButton = findViewById(R.id.logout_button);
+        logoutButton.setOnClickListener(v -> {
+
+            //Aqui se borra el estado de inicio de sesión
+            SharedPreferences sharedPreferences =  getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("IsLoggedIn", false);
+            editor.apply();
+
+            //Y despues se vuelve a la pantalla de login
+            Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+
+        });
 
     }// onCreate()
 
@@ -94,7 +114,7 @@ public class HomeActivity extends AppCompatActivity implements MovieListFragment
     public void finishListDownload(List<Movie> response){
 
         listFragment.updateMoviesList(response);
-        listFragment.updateListTitle(listTittle);
+        //listFragment.updateListTitle(listTittle);
     }
 
 

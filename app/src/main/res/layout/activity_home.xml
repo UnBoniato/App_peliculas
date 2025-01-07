@@ -8,23 +8,18 @@
     android:background="@drawable/login_background"
     tools:context=".HomeActivity">
 
-    <FrameLayout
-        android:id="@+id/fragmentContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
-        app:layout_constraintVertical_bias="0.0" />
+    <!-- TabLayout con categorías -->
+
+    <!-- Botón de Cerrar Sesión -->
+
+    <!-- Contenedor de fragmentos -->
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="326dp"
+        android:layout_height="48dp"
         android:background="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/logout_button"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -57,6 +52,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Mejor Valoradas" />
-
     </com.google.android.material.tabs.TabLayout>
+
+    <Button
+        android:id="@+id/logout_button"
+        android:layout_width="86dp"
+        android:layout_height="48dp"
+        android:background="@color/colorPrimaryDark"
+        android:padding="8dp"
+        android:text="Cerrar sesión"
+        android:textColor="@android:color/black"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/tabLayout"
+        app:layout_constraintTop_toTopOf="@id/tabLayout" />
+
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tabLayout"
+        app:layout_constraintVertical_bias="0.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+

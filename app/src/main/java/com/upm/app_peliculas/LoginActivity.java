@@ -2,10 +2,10 @@ package com.upm.app_peliculas;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -17,6 +17,8 @@ import androidx.core.content.ContextCompat;
 import android.widget.Button;
 import android.view.View;
 import android.content.Intent;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.Toast;
 import android.Manifest;
 import androidx.annotation.NonNull;
@@ -26,7 +28,13 @@ import androidx.annotation.NonNull;
 public class LoginActivity extends AppCompatActivity {
 
     private static final String CHANNEL_ID = "1";
-    private static final int NOTIFICATION_PERMISSION_CODE = 101;
+
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+
+    private EditText usuarioInput, PasswordInput;
+    private CheckBox LogInCheckBox;
+    private Button accessButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,17 +62,36 @@ public class LoginActivity extends AppCompatActivity {
             manager.createNotificationChannel(channel);
         }
 
-        //Buscar el boton y añadirle la funcionalidad
-        Button accessButton = findViewById(R.id.access_button);
-        accessButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //lanza una notificacion y va a la pantalla HOME
-                notificationButton(view);
+        //Logica para guardar si el usuario ha marcado la casilla de mantenerse logueado
+        sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
 
-                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                startActivity(intent);
+        //Aqui se verifica si el usuario ya esta logueado
+        if (sharedPreferences.getBoolean("IsLoggedIn", false)){
+            goToHomeActivity();
+        }
+
+        //Buscar las vistas de la interfaz
+        usuarioInput = findViewById(R.id.input_usuario);
+        PasswordInput = findViewById(R.id.input_password);
+        LogInCheckBox = findViewById(R.id.checkBox);
+        accessButton = findViewById(R.id.access_button);
+
+        //Configuracion del boton de acceso
+        accessButton.setOnClickListener(v -> {
+            String usuario = usuarioInput.getText().toString().trim();
+            String password = PasswordInput.getText().toString().trim();
+
+            if(validateCredentials(usuario, password)){
+                if(LogInCheckBox.isChecked()) {
+                    editor.putBoolean("IsLoggedIn", true);
+                    editor.apply();
+                }
+                goToHomeActivity();
+            }else{
+                Toast.makeText(LoginActivity.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
             }
+
         });
     }
 
@@ -82,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     //crear las notificaciones
-    public void notificationButton(View view) {
+    public void sendNotification(View view) {
 
         Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.app_logo);
 
@@ -99,5 +126,20 @@ public class LoginActivity extends AppCompatActivity {
         manager.notify(1, builder.build());
     }
 
+    /*---------------METODOS PRIVADOS----------------*/
+
+
+    //Como no se usa servidor ni backend de momento se usa un usuario y contraseña de prueba
+    private boolean validateCredentials(String user, String password) {
+        return user.equals("usuario1") && password.equals("12345");
+    }
+    private void goToHomeActivity() {
+
+        sendNotification(new View(this));
+
+        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
 }
