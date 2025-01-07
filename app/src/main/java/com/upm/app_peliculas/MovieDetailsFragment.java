@@ -13,16 +13,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.VideoView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -122,10 +120,17 @@ public class MovieDetailsFragment extends Fragment {
 
         super.onViewCreated(view, savedInstanceState);
 
-        Button shareButton = view.findViewById(R.id.share_button);
-        shareButton.setOnClickListener(v -> {
+        Button shareInfoButton = view.findViewById(R.id.share_info_button);
+        shareInfoButton.setOnClickListener(v -> {
             if (selectedMovie != null) {
                 shareMovieInfo();
+            }
+        });
+
+        Button shareTrailerButton = view.findViewById(R.id.share_trailer_button);
+        shareTrailerButton.setOnClickListener(v -> {
+            if (selectedMovie != null) {
+                shareMovieTrailer();
             }
         });
     }
@@ -140,6 +145,20 @@ public class MovieDetailsFragment extends Fragment {
         shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
 
         startActivity(Intent.createChooser(shareIntent, "Compartir película"));
+    }
+
+    private void shareMovieTrailer(){
+        if (trailerKey != null && !trailerKey.isEmpty()){
+            String trailerUrl = "https://www.youtube.com/watch?v=" + trailerKey;
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "¡Mira el tráiler de esta película!\n\n" + trailerUrl);
+
+            startActivity(Intent.createChooser(shareIntent, "Compartir tráiler"));
+
+        } else {
+            Toast.makeText(getContext(), "El tráiler no está disponible", Toast.LENGTH_SHORT).show();
+        }
     }
 
     // Llamada a la API para obtener la clave del trailer de la peli a raiz de su id
@@ -169,8 +188,4 @@ public class MovieDetailsFragment extends Fragment {
             }
         });
     }
-
-
-
-
 }
