@@ -77,8 +77,11 @@ public class MovieDetailsFragment extends Fragment {
         youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
             @Override
             public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+
                 // Prepara el video pero no lo reproduce
-                youTubePlayer.cueVideo(trailerKey, 0);
+                if(trailerKey != null){
+                    youTubePlayer.cueVideo(trailerKey, 0);
+                }
 
                 // Configurar click para reproducir el video
                 youTubePlayerView.setOnClickListener(v -> {

@@ -13,6 +13,8 @@ import androidx.fragment.app.FragmentTransaction;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
@@ -119,17 +121,21 @@ public class HomeActivity extends AppCompatActivity implements MovieListFragment
          */
         if(currentFragment instanceof MovieDetailsFragment){
 
+            listFragment.updateMoviesList(response);
+
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainer, listFragment);
             transaction.addToBackStack(null);
             transaction.commit();
 
+            new Handler().post(() -> {
+                listFragment.resetListScroll();
+            });
+
         }else{
             listFragment.updateMoviesList(response);
             listFragment.resetListScroll();
         }
-
-
     }
 
     // Petición a la API para la lista de pelis

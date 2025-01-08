@@ -19,7 +19,8 @@
             android:layout_marginBottom="16dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:contentDescription="Cartelera"/>
 
 
             <!-- Título de la película -->
@@ -40,7 +41,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@drawable/share_icon"
-                android:contentDescription="Compartir"
+                android:contentDescription="Compartir Película"
                 android:layout_marginStart="0dp" />
 
 
@@ -221,7 +222,7 @@
             <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
                 android:id="@+id/youtube_player_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

@@ -63,6 +63,7 @@ public class MovieListFragment extends Fragment {
         movieList.clear();
         movieList.addAll(newMovies);
         movieAdapter.notifyDataSetChanged(); // Notifica que los datos han cambiado
+        movieListView.setSelection(0);
     }
 
     private void onMovieSelected(int movie_id) {
