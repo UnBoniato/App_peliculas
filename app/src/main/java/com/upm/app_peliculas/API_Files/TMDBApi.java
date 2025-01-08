@@ -1,6 +1,5 @@
-package com.upm.app_peliculas;
+package com.upm.app_peliculas.API_Files;
 
-import kotlin.ParameterName;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;

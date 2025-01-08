@@ -20,6 +20,13 @@ import com.bumptech.glide.Glide;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
+import com.upm.app_peliculas.API_Files.Genre;
+import com.upm.app_peliculas.API_Files.GenreManager;
+import com.upm.app_peliculas.API_Files.Movie;
+import com.upm.app_peliculas.API_Files.RetrofitClient;
+import com.upm.app_peliculas.API_Files.TMDBApi;
+import com.upm.app_peliculas.API_Files.Video;
+import com.upm.app_peliculas.API_Files.VideosResponse;
 
 import java.util.List;
 

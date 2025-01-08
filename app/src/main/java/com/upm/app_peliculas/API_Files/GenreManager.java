@@ -1,6 +1,4 @@
-package com.upm.app_peliculas;
-
-import static android.provider.MediaStore.Video.VideoColumns.LANGUAGE;
+package com.upm.app_peliculas.API_Files;
 
 import android.util.Log;
 

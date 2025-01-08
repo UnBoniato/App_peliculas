@@ -1,14 +1,15 @@
 package com.upm.app_peliculas;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import com.bumptech.glide.Glide;
+import com.upm.app_peliculas.API_Files.GenreManager;
+import com.upm.app_peliculas.API_Files.Movie;
+
 import android.view.LayoutInflater;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 

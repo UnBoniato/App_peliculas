@@ -18,6 +18,11 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
+import com.upm.app_peliculas.API_Files.GenreManager;
+import com.upm.app_peliculas.API_Files.Movie;
+import com.upm.app_peliculas.API_Files.MovieResponse;
+import com.upm.app_peliculas.API_Files.RetrofitClient;
+import com.upm.app_peliculas.API_Files.TMDBApi;
 
 import java.util.List;
 
@@ -26,7 +31,7 @@ public class HomeActivity extends AppCompatActivity implements MovieListFragment
 
     private final String API_KEY = "0246043f7994bfc1bd073b12fbfb869a";
     private final String LANGUAGE = "es-ES";
-    private  TMDBApi apiService;
+    private TMDBApi apiService;
     private MovieListFragment listFragment;
     private TabLayout tab;
 

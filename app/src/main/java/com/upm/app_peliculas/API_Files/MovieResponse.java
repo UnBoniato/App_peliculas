@@ -1,8 +1,7 @@
-package com.upm.app_peliculas;
+package com.upm.app_peliculas.API_Files;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MovieResponse {
