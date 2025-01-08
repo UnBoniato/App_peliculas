@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -28,7 +29,6 @@ public class HomeActivity extends AppCompatActivity implements MovieListFragment
     private  TMDBApi apiService;
     private MovieListFragment listFragment;
     private TabLayout tab;
-    String listTittle = "Tendencias de la Semana";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,23 +58,18 @@ public class HomeActivity extends AppCompatActivity implements MovieListFragment
                 switch (tab.getPosition()){
                     case 0: // Tendencias
                         call = apiService.getTrendingMovies(LANGUAGE);
-                        listTittle = "Tendencias de la Semana";
                         break;
                     case 1: // Populares
                         call = apiService.getPopularMovies(LANGUAGE);
-                        listTittle = "Populares";
                         break;
                     case 2: // En Cines
                         call = apiService.getNowPlayingMovies(LANGUAGE);
-                        listTittle = "Actualmente en los Cines";
                         break;
                     case 3: // Proximos Estrenos
                         call = apiService.getUpcomingMovies(LANGUAGE);
-                        listTittle = "Próximos Estrenos";
                         break;
                     case 4: // Mejor Valoradas
                         call = apiService.getTopRatedMovies(LANGUAGE);
-                        listTittle = "Mejor Valoradas";
                         break;
                 }
                 obtainMovieListInfo(call);
@@ -91,7 +86,6 @@ public class HomeActivity extends AppCompatActivity implements MovieListFragment
         obtainMovieListInfo(apiService.getTrendingMovies(LANGUAGE));
 
         //configuracion del boton de logout
-
         Button logoutButton = findViewById(R.id.logout_button);
         logoutButton.setOnClickListener(v -> {
 
@@ -110,13 +104,28 @@ public class HomeActivity extends AppCompatActivity implements MovieListFragment
 
     }// onCreate()
 
-    // Se llama al recibir la respuesta de la API
+    // Se llama al recibir la lista de peliculas de la API
     public void finishListDownload(List<Movie> response){
 
-        listFragment.updateMoviesList(response);
-        //listFragment.updateListTitle(listTittle);
-    }
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
 
+        /* Si el fragmento actual es de detalles de una peli, se reemplaza por el de la lista
+           sino, se actualiza la lista
+         */
+        if(currentFragment instanceof MovieDetailsFragment){
+
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragmentContainer, listFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+
+        }else{
+            listFragment.updateMoviesList(response);
+            listFragment.resetListScroll();
+        }
+
+
+    }
 
     // Petición a la API para la lista de pelis
     public void obtainMovieListInfo(Call<MovieResponse> call){
@@ -174,7 +183,6 @@ public class HomeActivity extends AppCompatActivity implements MovieListFragment
                 Log.e("API Error", t.getMessage());
             }
         });
-
         detailsFragment.obtainTrailerKey(movie_id);
     }
 

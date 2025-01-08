@@ -21,7 +21,6 @@ public class MovieListFragment extends Fragment {
     private ListView movieListView;
     private MovieAdapter movieAdapter;
     private List<Movie> movieList = new ArrayList<>();
-    //private TextView listTitleView;
 
 
     public MovieListFragment() {
@@ -39,9 +38,8 @@ public class MovieListFragment extends Fragment {
         // Inflar el layout del fragmento
         View rootView = inflater.inflate(R.layout.fragment_movie_list, container, false);
 
-        // Asignar el ListView y el TextView
+        // Asignar el ListView
         movieListView = rootView.findViewById(R.id.movie_list);
-        //listTitleView = rootView.findViewById(R.id.textView);
 
         // Crear el adaptador y asignarlo al ListView
         movieAdapter = new MovieAdapter(getContext(), movieList);
@@ -56,6 +54,11 @@ public class MovieListFragment extends Fragment {
         return rootView;
     }
 
+    public void resetListScroll(){
+        movieAdapter.notifyDataSetChanged();
+        movieListView.setSelection(0);
+    }
+
     // Actualizar la lista de pelis
     public void updateMoviesList(List<Movie> newMovies) {
         movieList.clear();
@@ -63,10 +66,6 @@ public class MovieListFragment extends Fragment {
         movieAdapter.notifyDataSetChanged(); // Notifica que los datos han cambiado
     }
 
-    /*public void updateListTitle(String title){
-        listTitleView.setText(title);
-    }
-    */
     private void onMovieSelected(int movie_id) {
         if (getActivity() instanceof OnMovieSelectedListener) {
             ((OnMovieSelectedListener) getActivity()).onMovieSelected(movie_id);
